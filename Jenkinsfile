@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building image from Dockerfile'
-                sh 'docker build -t mb-aligo-website-demo:latest .'
+                sh 'docker build -t mbaligo/mb-aligo-website-demo:latest .'
             }
         }
         stage('Login') {
@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Push') {
             steps {
-                sh 'docker push mb-aligo-website-demo:latest'
+                sh 'docker push mbaligo/mb-aligo-website-demo:latest'
             }
         }
     }
