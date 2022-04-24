@@ -1,10 +1,5 @@
 pipeline {
-    agent { 
-        label 'linux' 
-    }
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '5'))
-    }
+    agent any
     stages {
         stage('Clone Repository') {
             steps {
