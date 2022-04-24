@@ -1,5 +1,6 @@
 pipeline {
     agent any
+
     stages {
         stage('Clone Repository') {
             steps {
@@ -8,16 +9,16 @@ pipeline {
                 sh 'git clone https://github.com/mb-aligo/WebSite-Demo.git'
             }
         }
-        stage('Login') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }    
-        }
         stage('Build') {
             steps {
                 echo 'Building image from Dockerfile'
                 sh 'docker build -t html-website-demo:latest .'
             }
+        }
+        stage('Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }    
         }
         stage('Push') {
             steps {
