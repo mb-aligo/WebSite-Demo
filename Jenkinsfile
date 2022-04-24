@@ -9,15 +9,26 @@ pipeline {
                 sh 'git clone https://github.com/mb-aligo/WebSite-Demo.git'
             }
         }
-        stage('Stage 2') {
+        stage('Build') {
             steps {
-                echo 'Stage 2'
+                echo 'Building image from Dockerfile'
+                sh 'docker build -t html-website-demo:latest .'
             }
         }
-        stage('Stage 3') {
+        stage('Login') {
             steps {
-                echo 'Stage 3'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }    
+        }
+        stage('Push') {
+            steps {
+                sh 'docker push html-website-demo:latest'
+            }
+        }
+    }
+    post {
+        always {
+            sh 'docker logout'
         }
     }
 }
