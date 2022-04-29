@@ -27,15 +27,13 @@ pipeline {
                 sh 'docker push mbaligo/mb-aligo-website-demo:latest'
             }
         }
-        stage('Remote SSH') {
-            def remote = [:]
-            remote.name = 'test'
-            remote.host = 'thexoc11'
-            remote.user = 'root'
-            remote.password = 'Lnx090909!'
-            remote.allowAnyHosts = true    
-            sshCommand remote: remote, command: "ls -lrt"
-        }           
+        stage ('Deploy') {
+            steps{
+                sshagent(credentials : ['ssh-key-thexoc11']) {
+                    sh 'ls -lrt'
+                }
+            }
+        }
     }
     post {
         always {
