@@ -30,9 +30,9 @@ pipeline {
         stage ('Deploy') {
             steps{
                 sshagent(credentials : ['ssh-key-thexoc11']) {
-                    sh 'ls -lrt'
-		    sh 'cd /root/'
-                    sh './owasp-script.sh'
+                    sh 'ssh root@thexoc11'
+		    sh 'ls -lrt'
+                    sh 'docker ps'
                 }
             }
         }
