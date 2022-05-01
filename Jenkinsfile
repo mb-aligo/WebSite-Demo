@@ -31,8 +31,8 @@ pipeline {
             steps{
                 sshagent(credentials : ['ssh-key-thexoc11']) {
                     sh 'ls -lrt'
-		    sh 'sudo docker ps'
-		    sh 'sudo docker exec -ti f52a683f9b53 zap.sh -cmd -quickurl http://192.168.13.113:8083/ -quickout /home/zap/test-results-%BUILD_NUMBER%.html -quickprogress'
+		    sh 'cd /root/'
+                    sh './owasp-script.sh'
                 }
             }
         }
