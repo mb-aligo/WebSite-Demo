@@ -30,6 +30,7 @@ pipeline {
         stage ('Deploy') {
             steps{
                 sshagent(credentials : ['ssh-key-thexoc11']) {                    
+                    sh "ssh -o StrictHostKeyChecking=no root@thexoc11.aligo.corp 'ls -lrt'"
                     sh 'ls -lrt'
                 }
             }
