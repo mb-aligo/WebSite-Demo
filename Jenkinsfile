@@ -11,28 +11,26 @@ pipeline {
                 sh 'git clone https://github.com/mb-aligo/WebSite-Demo.git'
             }
         }
-        stage('Build') {
+        stage('Build (Dockerile)') {
             steps {
                 echo 'Building image from Dockerfile'
                 sh 'docker build -t mbaligo/mb-aligo-website-demo:latest .'
             }
         }
-        stage('Login') {
+        stage('Login (DockerHub)') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }    
         }
-        stage('Push') {
+        stage('Publish (DockerHub)') {
             steps {
                 sh 'docker push mbaligo/mb-aligo-website-demo:latest'
             }
         }
         stage ('Zap Scan (SSH)') {
             steps{
-                sshagent(credentials : ['ssh-key-thexoc11']) {                    
-                    sh "ssh -o StrictHostKeyChecking=no root@thexoc11.aligo.corp 'ls -lrt'"
+                sshagent(credentials : ['ssh-key-thexoc11']) {               
                     sh "ssh -o StrictHostKeyChecking=no root@thexoc11.aligo.corp 'docker exec 66f78997a175 zap.sh -cmd -quickurl http://192.168.13.113:8083/ -quickout /home/zap/test-results-latest.html -quickprogress'"
-                    sh 'ls -lrt'
                 }
             }
         }
