@@ -35,7 +35,10 @@ pipeline {
         stage ('Zap Scan (SSH)') {
             steps{
                 sshagent(credentials : ['ssh-key-thexoc11']) {               
-                    sh "ssh -o StrictHostKeyChecking=no root@thexoc11.aligo.corp 'docker exec 66f78997a175 zap.sh -cmd -quickurl http://192.168.13.113:8083/ -quickout /home/zap/test-results-latest.html -quickprogress'"
+                    sh "ssh -o StrictHostKeyChecking=no root@thexoc11.aligo.corp 'docker exec 66f78997a175 zap.sh -cmd -quickurl http://192.168.13.133:8083/ -quickout /home/zap/test-results-latest.html -quickprogress'"
+                }
+		sshagent(credentials : ['ssh-key-ctlpln01']) {                    
+                    sh "ssh -o StrictHostKeyChecking=no root@ctlpln01.aligo.corp 'kubectl rollout restart deploy web-demo -n default'"
                 }
             }
         }
