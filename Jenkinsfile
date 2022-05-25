@@ -17,15 +17,11 @@ pipeline {
                 sh 'docker build -t mbaligo/mb-aligo-website-demo:latest .'
             }
         }
-        stage('Login (DockerHub)') {
+        stage('Login/Publish (DockerHub)') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+		sh 'docker push mbaligo/mb-aligo-website-demo:latest'
             }    
-        }
-        stage('Publish (DockerHub)') {
-            steps {
-                sh 'docker push mbaligo/mb-aligo-website-demo:latest'
-            }
         }
         stage ('Sonar Scan (On Host)') {
             steps{
