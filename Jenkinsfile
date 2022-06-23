@@ -25,7 +25,7 @@ pipeline {
         }
         stage ('Sonar Scan (On Host)') {
             steps{
-                sh 'cd /home/aligomb/Escritorio/WebSite-Demo'
+                sh '/home/aligomb/Escritorio/WebSite-Demo && sonar-scanner   -Dsonar.projectKey=Aligo-Demo   -Dsonar.sources=.   -Dsonar.host.url=http://192.168.13.113:8082   -Dsonar.login=918025ba242d5cfc28fffcfcbdca71f9eabc5949'
             }
         }
         stage ('Zap Scan (SSH)') {
